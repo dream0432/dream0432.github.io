@@ -5,319 +5,399 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>ให้เราได้รับฟังและให้คุณได้ระบาย</title>
   <style>
-    body {
-      font-family: "Kanit", sans-serif;
-      background: linear-gradient(to bottom right, #f0f4f8, #dbeafe);
-      margin: 0;
-      padding: 0;
+    /* หน้าแรก */
+    #page1 {
       display: flex;
-      height: 100vh;
+      flex-direction: column;
       justify-content: center;
       align-items: center;
-    }
-
-    #app {
-      background: white;
+      height: 100vh;
+      background: #f0f0f5;
+      text-align: center;
       padding: 20px;
-      box-shadow: 0 8px 20px rgba(0,0,0,0.05);
-      border-radius: 10px;
-      max-width: 400px;
-      width: 90vw;
-      font-size: 14px;
-      box-sizing: border-box;
       position: relative;
     }
 
-    h1 {
-      font-size: 18px;
-      margin-bottom: 16px;
-      text-align: center;
-      color: #1e293b;
+    #page1 h1 {
+      font-size: 2.5rem;
+      margin-bottom: 20px;
+      color: #333;
     }
 
+    /* ปุ่ม */
     button {
-      background-color: #3b82f6;
+      background-color: #007bff;
       color: white;
-      padding: 10px;
-      font-size: 14px;
       border: none;
-      border-radius: 6px;
-      cursor: pointer;
-      margin: 6px 0;
-      width: 100%;
-      box-sizing: border-box;
-      transition: background-color 0.3s ease;
-    }
-
-    button:hover {
-      background-color: #2563eb;
-    }
-
-    textarea#paper {
-      background: #fff8dc;
-      border: 2px solid #deb887;
       border-radius: 8px;
-      padding: 12px;
-      width: 100%;
-      height: 150px;
-      resize: none;
-      font-size: 14px;
-      color: #5a3e1b;
-      transition: all 1.5s ease;
-      box-sizing: border-box;
-      position: relative;
-      z-index: 2;
+      padding: 15px 30px;
+      font-size: 18px;
+      cursor: pointer;
+      box-shadow: 0 4px 8px rgba(0,123,255,0.3);
+      transition: background-color 0.3s ease;
+      margin: 10px;
+    }
+    button:hover {
+      background-color: #0056b3;
     }
 
-    .burning {
-      animation: burn-text 2s forwards;
-    }
-
-    @keyframes burn-text {
-      0% { color: #5a3e1b; background-color: #fff8dc; opacity: 1; }
-      50% { color: #ff4500; background-color: #fbbf24; opacity: 0.5; }
-      100% { color: transparent; background-color: black; opacity: 0; }
-    }
-
-    #new-btn {
-      margin-top: 10px;
-      display: none;
-    }
-
-    #encourage-text {
-      margin-top: 10px;
-      font-size: 12px;
-      color: #555;
-      text-align: center;
-      display: none;
-      user-select: none;
-    }
-
+    /* ช่องล็อกอิน admin */
     #admin-login {
       display: none;
-      margin-top: 12px;
+      position: fixed;
+      bottom: 70px;
+      left: 20px;
+      background: white;
+      padding: 15px 20px;
+      border-radius: 12px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+      width: 280px;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      z-index: 1000;
+    }
+
+    #admin-login label {
+      margin-bottom: 6px;
+      font-weight: 600;
+      color: #444;
+      display: block;
     }
 
     #admin-login input {
       width: 100%;
-      padding: 10px;
-      border-radius: 6px;
-      border: 1px solid #cbd5e1;
-      font-size: 13px;
-      background-color: #f1f5f9;
-      margin-bottom: 6px;
-      box-sizing: border-box;
+      padding: 10px 12px;
+      margin-bottom: 12px;
+      border: 2px solid #ccc;
+      border-radius: 8px;
+      font-size: 16px;
     }
 
-    .error {
-      color: red;
-      font-size: 12px;
-      text-align: center;
+    #admin-login button {
+      width: 100%;
+      background-color: #28a745;
     }
 
-    #history {
-      background: #f3f4f6;
-      padding: 10px;
-      border-radius: 6px;
-      margin-top: 16px;
-      font-size: 12px;
-      max-height: 200px;
-      overflow-y: auto;
+    #admin-login button:hover {
+      background-color: #1e7e34;
+    }
+
+    #login-error {
+      color: #d9534f;
+      font-weight: 600;
+      margin-top: -8px;
+      margin-bottom: 8px;
       display: none;
     }
 
-    .entry {
-      border-bottom: 1px solid #ccc;
-      padding-bottom: 6px;
-      margin-bottom: 6px;
+    /* ไอคอนประแจ */
+    #admin-toggle {
+      position: fixed;
+      bottom: 20px;
+      left: 20px;
+      background: #007bff;
+      width: 50px;
+      height: 50px;
+      border-radius: 50%;
+      cursor: pointer;
+      box-shadow: 0 4px 12px rgba(0,123,255,0.4);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      z-index: 1100;
+      transition: background-color 0.3s ease;
+    }
+    #admin-toggle:hover {
+      background: #0056b3;
+    }
+    #admin-toggle svg {
+      width: 28px;
+      height: 28px;
+      fill: white;
+    }
+
+    /* หน้า 2 */
+    #page2 {
+      display: none;
+      position: relative;
+      height: 100vh;
+      width: 100vw;
+      background: #fffdfa;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      padding: 20px;
+      box-sizing: border-box;
+    }
+
+    #paper {
+      width: 90%;
+      max-width: 600px;
+      height: 200px;
+      font-size: 18px;
+      padding: 15px;
+      box-sizing: border-box;
+      border-radius: 10px;
+      border: 2px solid #ccc;
+      resize: none;
+      background: #fff;
+      overflow-wrap: break-word;
       white-space: pre-wrap;
+      transition: opacity 2s ease;
+    }
+
+    #paper.burning {
+      animation: burn-textarea 2s forwards;
+    }
+
+    @keyframes burn-textarea {
+      0% { filter: none; color: #000; background-color: #fff; opacity: 1; }
+      50% { filter: brightness(0.7) saturate(1.5); color: #ff4500; background-color: #fff8e7; box-shadow: 0 0 15px 5px rgba(255,140,0,0.7), inset 0 0 10px 5px rgba(255,69,0,0.9); opacity: 0.7; text-shadow: 0 0 5px #ff4500, 0 0 10px #ff7f00; }
+      100% { opacity: 0; color: transparent; background-color: transparent; box-shadow: none; text-shadow: none; }
+    }
+
+    #flames {
+      display: none;
+      pointer-events: none;
+      position: absolute;
+      bottom: 20px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 600px;
+      height: 200px;
+      z-index: 10;
+    }
+
+    .flame {
+      position: absolute;
+      bottom: 0;
+      width: 20px;
+      height: 40px;
+      background: radial-gradient(circle at 50% 100%, #ffcc00 30%, transparent 70%);
+      filter: drop-shadow(0 0 3px orange);
+      animation: flicker 0.5s infinite alternate;
+      opacity: 0.8;
+      border-radius: 50% 50% 30% 30%;
+    }
+
+    .flame:nth-child(2) { left: 30%; animation-delay: 0.2s; height: 50px; width: 22px; }
+    .flame:nth-child(3) { left: 60%; animation-delay: 0.4s; height: 38px; width: 18px; }
+
+    @keyframes flicker {
+      0% { transform: translateY(0) scale(1) rotate(0deg); opacity: 0.8; }
+      100% { transform: translateY(-5px) scale(1.1) rotate(5deg); opacity: 1; }
     }
 
     #ash-container {
       position: absolute;
-      top: 70px;
+      top: 0;
       left: 0;
       width: 100%;
-      height: 150px;
+      height: 200px;
       pointer-events: none;
-      overflow: visible;
-      z-index: 1;
+      z-index: 9;
     }
 
     .ash {
       position: absolute;
-      width: 6px;
-      height: 6px;
-      background: #555;
-      opacity: 0.8;
+      width: 4px;
+      height: 4px;
+      background: rgba(100, 100, 100, 0.4);
       border-radius: 50%;
-      animation-name: ash-fall;
-      animation-duration: 2s;
-      animation-timing-function: ease-out;
-      animation-fill-mode: forwards;
+      animation: ash-fall 2s linear forwards;
     }
 
     @keyframes ash-fall {
-      0% {
-        transform: translateY(0) scale(1);
-        opacity: 0.8;
-      }
-      100% {
-        transform: translateY(-50px) translateX(10px) scale(0.1);
-        opacity: 0;
-      }
+      0% { opacity: 1; transform: translateY(0); }
+      100% { opacity: 0; transform: translateY(200px) scale(0.5); }
     }
 
-    @media (max-width: 500px) {
-      #app {
-        padding: 16px;
-        font-size: 13px;
-      }
-      button {
-        font-size: 13px;
-        padding: 8px;
-      }
-      textarea#paper {
-        font-size: 13px;
-        height: 140px;
-      }
+    #page2 > div > button {
+      background-color: #ff4500;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      padding: 10px 25px;
+      font-size: 16px;
+      cursor: pointer;
+      box-shadow: 0 4px 6px rgba(0,0,0,0.3);
+      transition: background-color 0.3s ease;
+      margin-top: 10px;
+    }
+
+    #page2 > div > button:hover {
+      background-color: #e03e00;
+    }
+
+    #page3 {
+      display: none;
+      height: 100vh;
+      width: 100vw;
+      background: #fffdfa;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      padding: 20px;
+      box-sizing: border-box;
+    }
+
+    #page3 button {
+      background-color: #555;
+      margin: 10px;
+      padding: 12px 30px;
+      font-size: 18px;
+      border-radius: 8px;
+      border: none;
+      color: white;
+      cursor: pointer;
+      box-shadow: 0 4px 6px rgba(0,0,0,0.3);
+      transition: background-color 0.3s ease;
+    }
+
+    #page3 button:hover {
+      background-color: #333;
+    }
+
+    #page3 #encourage-text {
+      margin-top: 30px;
+      font-size: 20px;
+      color: #555;
+      text-align: center;
+      max-width: 600px;
+    }
+
+    @media (max-width: 640px) {
+      #paper { max-width: 100%; height: 180px; font-size: 16px; }
+      #flames, #ash-container { width: 100%; height: 180px; }
     }
   </style>
 </head>
 <body>
-  <div id="app">
-    <div id="welcome-page">
-      <h1>ให้เราได้รับฟังและให้คุณได้ระบาย</h1>
-      <button id="guest-btn">ระบายเลย</button>
-      <button id="admin-show-btn">เข้าสู่ระบบแอดมิน</button>
-      <div id="admin-login">
-        <input type="password" id="admin-pass" placeholder="รหัสแอดมิน" autocomplete="off" />
-        <div id="admin-error" class="error"></div>
-        <button id="admin-login-btn">เข้าสู่ระบบ</button>
-      </div>
-    </div>
-
-    <div id="page2" style="display:none;">
-      <textarea id="paper" placeholder="พิมพ์ข้อความระบายที่นี่..."></textarea>
-      <div id="ash-container"></div>
-      <button id="burn-btn">เผาไหม้</button>
-      <button id="new-btn">ระบายใหม่</button>
-      <div id="encourage-text">ขอให้คุณรักตัวเองและการที่คุณเศร้าจะมีเราอยู่ข้างเสมอนะ</div>
-    </div>
-
-    <div id="history">
-      <strong>ประวัติข้อความ:</strong>
-      <div id="entries"></div>
+  <div id="page1">
+    <h1>ให้เราได้รับฟังและให้คุณได้ระบาย</h1>
+    <button id="go-to-write">ระบายความรู้สึก</button>
+    <div id="admin-login">
+      <label for="admin-pass">รหัสแอดมิน</label>
+      <input type="password" id="admin-pass" placeholder="กรอกรหัสแอดมิน" autocomplete="off"/>
+      <button id="admin-login-btn">เข้าสู่ระบบแอดมิน</button>
+      <div id="login-error">รหัสไม่ถูกต้อง</div>
     </div>
   </div>
 
+  <div id="page2">
+    <textarea id="paper" placeholder="พิมพ์ข้อความระบายที่นี่..."></textarea>
+    <div id="flames">
+      <div class="flame" style="left: 10%;"></div>
+      <div class="flame" style="left: 35%;"></div>
+      <div class="flame" style="left: 60%;"></div>
+    </div>
+    <div id="ash-container"></div>
+    <div>
+      <button id="burn-btn">เผาไหม้</button>
+    </div>
+  </div>
+
+  <div id="page3">
+    <button id="add-more">ระบายเพิ่ม</button>
+    <div id="encourage-text">ขอให้คุณรักตัวเองและการที่คุณเศร้าจะมีเราอยู่ข้างเสมอนะ</div>
+  </div>
+
+  <div id="admin-toggle" title="เข้าสู่ระบบแอดมิน" role="button">
+    <svg viewBox="0 0 24 24"><path d="M19.14,12.94a7.07,7.07...Z"/></svg>
+  </div>
+
   <script>
-    const guestBtn = document.getElementById("guest-btn");
-    const adminShowBtn = document.getElementById("admin-show-btn");
-    const adminLoginBox = document.getElementById("admin-login");
-    const adminPass = document.getElementById("admin-pass");
-    const adminLoginBtn = document.getElementById("admin-login-btn");
-    const adminError = document.getElementById("admin-error");
-    const welcomePage = document.getElementById("welcome-page");
+    const page1 = document.getElementById("page1");
     const page2 = document.getElementById("page2");
+    const page3 = document.getElementById("page3");
+    const goToWriteBtn = document.getElementById("go-to-write");
+    const adminLoginBtn = document.getElementById("admin-login-btn");
+    const adminPassInput = document.getElementById("admin-pass");
+    const loginError = document.getElementById("login-error");
     const paper = document.getElementById("paper");
     const burnBtn = document.getElementById("burn-btn");
-    const newBtn = document.getElementById("new-btn");
-    const encourageText = document.getElementById("encourage-text");
-    const historyBox = document.getElementById("history");
-    const entriesDiv = document.getElementById("entries");
+    const addBtn = document.getElementById("add-more");
     const ashContainer = document.getElementById("ash-container");
-
+    const flames = document.getElementById("flames");
+    const adminLoginBox = document.getElementById("admin-login");
+    const adminToggle = document.getElementById("admin-toggle");
     let isAdmin = false;
+    let entries = [];
 
-    guestBtn.addEventListener("click", () => {
-      isAdmin = false;
-      showPage2();
+    goToWriteBtn.addEventListener("click", () => {
+      page1.style.display = "none";
+      page2.style.display = "flex";
     });
 
-    adminShowBtn.addEventListener("click", () => {
-      adminLoginBox.style.display = "block";
+    adminToggle.addEventListener("click", () => {
+      adminLoginBox.style.display = adminLoginBox.style.display === "block" ? "none" : "block";
+      if (adminLoginBox.style.display === "block") adminPassInput.focus();
     });
 
     adminLoginBtn.addEventListener("click", () => {
-      if (adminPass.value === "230749") {
+      if (adminPassInput.value.trim() === "230749") {
         isAdmin = true;
-        adminError.textContent = "";
-        adminPass.value = "";
-        showPage2();
+        loginError.style.display = "none";
+        alert("เข้าสู่ระบบแอดมินเรียบร้อย");
+        page1.style.display = "none";
+        page2.style.display = "flex";
+        adminLoginBox.style.display = "none";
         showHistory();
       } else {
-        adminError.textContent = "รหัสแอดมินไม่ถูกต้อง";
+        loginError.style.display = "block";
       }
+      adminPassInput.value = "";
     });
 
-    function showPage2() {
-      welcomePage.style.display = "none";
-      page2.style.display = "block";
-      historyBox.style.display = isAdmin ? "block" : "none";
-      resetPaper();
-    }
-
-    function resetPaper() {
-      paper.value = "";
-      paper.classList.remove("burning");
-      paper.style.opacity = "1";
-      burnBtn.style.display = "block";
-      newBtn.style.display = "none";
-      encourageText.style.display = "none";
-      ashContainer.innerHTML = "";
-    }
-
     function saveEntry(text) {
-      let entries = JSON.parse(localStorage.getItem("entries")) || [];
-      entries.push({ text: text, time: new Date().toLocaleString() });
-      localStorage.setItem("entries", JSON.stringify(entries));
-    }
-
-    function showHistory() {
-      let entries = JSON.parse(localStorage.getItem("entries")) || [];
-      entriesDiv.innerHTML = "";
-      entries.slice().reverse().forEach(entry => {
-        const div = document.createElement("div");
-        div.className = "entry";
-        div.textContent = `[${entry.time}] ${entry.text}`;
-        entriesDiv.appendChild(div);
-      });
+      entries.push({ text, timestamp: new Date() });
     }
 
     function createAshParticles() {
-      ashContainer.innerHTML = ""; // ล้างเก่าออกก่อน
-      for(let i=0; i<20; i++) {
+      ashContainer.innerHTML = "";
+      for (let i = 0; i < 60; i++) {
         const ash = document.createElement("div");
-        ash.classList.add("ash");
-        ash.style.left = (Math.random() * 95) + "%";
-        ash.style.top = (Math.random() * 140) + "px";
-        ash.style.animationDelay = (i * 100) + "ms";
+        ash.className = "ash";
+        ash.style.left = `${Math.random() * 100}%`;
+        ash.style.animationDelay = `${Math.random()}s`;
         ashContainer.appendChild(ash);
       }
     }
 
     burnBtn.addEventListener("click", () => {
       const text = paper.value.trim();
-      if (text) {
-        if (!isAdmin) saveEntry(text);
-        paper.classList.add("burning");
-        createAshParticles();
-        burnBtn.style.display = "none";
-        setTimeout(() => {
-          paper.value = "";
-          paper.style.opacity = "0";
-          ashContainer.innerHTML = "";
-          newBtn.style.display = "block";
-          encourageText.style.display = "block";
-          if (isAdmin) showHistory();
-        }, 2000);
-      }
+      if (!text) return;
+      if (!isAdmin) saveEntry(text);
+      paper.classList.add("burning");
+      flames.style.display = "block";
+      createAshParticles();
+      burnBtn.style.display = "none";
+      setTimeout(() => {
+        paper.value = "";
+        paper.classList.remove("burning");
+        flames.style.display = "none";
+        ashContainer.innerHTML = "";
+        page2.style.display = "none";
+        page3.style.display = "flex";
+        burnBtn.style.display = "inline-block";
+      }, 2000);
     });
 
-    newBtn.addEventListener("click", () => {
-      resetPaper();
+    addBtn.addEventListener("click", () => {
+      page3.style.display = "none";
+      page2.style.display = "flex";
     });
+
+    function showHistory() {
+      if (entries.length === 0) {
+        alert("ยังไม่มีข้อความใดๆ");
+        return;
+      }
+      let historyText = "ข้อความที่เคยระบาย:\n\n";
+      entries.forEach((e, i) => {
+        historyText += `${i + 1}. [${new Date(e.timestamp).toLocaleString()}]\n${e.text}\n\n`;
+      });
+      alert(historyText);
+    }
   </script>
 </body>
 </html>
